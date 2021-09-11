@@ -1,12 +1,3 @@
-# AWS IoT Device SDK GoLang
-
-### AWS IoT gateway interface connection interface in GoLang
-
-Seamlessly connect with AWS IoT using this interface built on top of Paho MQTT Client
-
-Sample code:
-
-```go
 package main
 
 import (
@@ -38,4 +29,3 @@ func main(){
 		panic(err)
 	}
 }
-```

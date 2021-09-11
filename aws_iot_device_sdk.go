@@ -60,17 +60,18 @@ func (c *AWSIoTConnection) init(config Config) error {
 
 // NewConnection Creates new MQTT connection with AWS IoT
 // It requires config parameter for initialisation
-func (c *AWSIoTConnection) NewConnection(config Config) error {
-	if err := c.init(config); err != nil {
-		return err
+func NewConnection(config Config) (*AWSIoTConnection,error) {
+	connection:=AWSIoTConnection{}
+	if err := connection.init(config); err != nil {
+		return nil,err
 	}
-	c.client = MQTT.NewClient(c.options)
-	token := c.client.Connect()
+	connection.client = MQTT.NewClient(connection.options)
+	token := connection.client.Connect()
 	token.Wait()
 	if err := token.Error(); err != nil {
-		return err
+		return nil,err
 	} else {
-		return nil
+		return &connection,nil
 	}
 }
 
@@ -90,7 +91,7 @@ func (c *AWSIoTConnection) Subscribe(topic string, qos byte) error {
 	return c.SubscribeWithHandler(topic, qos, nil)
 }
 
-// Subscribe function subscribes on topic with level of qos (Quality of service)
+// SubscribeWithHandler function subscribes on topic with level of qos (Quality of service)
 // currently supported 0 & 1 (2 coming in future)
 // & handler function to listen to incoming messages for the topic & qos level.
 // It is called every time when message is received
